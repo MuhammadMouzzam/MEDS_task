@@ -1,9 +1,11 @@
 `timescale 1ns/10ps
 
 function real factorial(input int x);
-    automatic real fact = 1.0;
-    automatic int i = 0;
+    real fact;
+    int i;
     begin
+        fact = 1.0;
+        i = 0;
         for (i = 2; i <= x; i++) begin
             fact *= i; end
         return fact;
@@ -11,9 +13,11 @@ function real factorial(input int x);
 endfunction
 
 function real exp(input real x);
-    automatic int i = 0;
-    automatic real result = 0.0;
+    int i;
+    real result;
     begin
+        result = 0.0;
+        i = 0;
         for(i = 0; i < 21; i++)
             result += (power(x,i)/factorial(i));
         return result;
@@ -21,9 +25,11 @@ function real exp(input real x);
 endfunction
 
 function real power(input real x, input int pow);
-    automatic int i = 0;
-    automatic real result = 1.0;
+    int i;
+    real result;
     begin
+        result = 1.0;
+        i = 0;
         for (i = 0; i < pow; i++)
             result *= x;
         return result;

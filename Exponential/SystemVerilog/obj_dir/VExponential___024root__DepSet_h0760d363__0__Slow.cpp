@@ -44,7 +44,7 @@ VL_ATTR_COLD void VExponential___024root___eval_settle(VExponential___024root* v
 #ifdef VL_DEBUG
             VExponential___024root___dump_triggers__stl(vlSelf);
 #endif
-            VL_FATAL_MT("Exponential.sv", 33, "", "Settle region did not converge.");
+            VL_FATAL_MT("Exponential.sv", 39, "", "Settle region did not converge.");
         }
         __VstlIterCount = ((IData)(1U) + __VstlIterCount);
         __VstlContinue = 0U;
@@ -79,6 +79,8 @@ VL_ATTR_COLD void VExponential___024root___eval_stl(VExponential___024root* vlSe
     // Body
     if ((1ULL & vlSelf->__VstlTriggered.word(0U))) {
         VExponential___024root___ico_sequent__TOP__0(vlSelf);
+        vlSelf->__Vm_traceActivity[1U] = 1U;
+        vlSelf->__Vm_traceActivity[0U] = 1U;
     }
 }
 
@@ -148,10 +150,9 @@ VL_ATTR_COLD void VExponential___024root___ctor_var_reset(VExponential___024root
     vlSelf->__Vfunc_power__1__Vfuncout = 0;
     vlSelf->__Vfunc_power__1__x = 0;
     vlSelf->__Vfunc_power__1__pow = 0;
-    vlSelf->__Vfunc_power__1__i = 0;
-    vlSelf->__Vfunc_power__1__result = 0;
     vlSelf->__Vfunc_factorial__2__Vfuncout = 0;
     vlSelf->__Vfunc_factorial__2__x = 0;
-    vlSelf->__Vfunc_factorial__2__fact = 0;
-    vlSelf->__Vfunc_factorial__2__i = 0;
+    for (int __Vi0 = 0; __Vi0 < 2; ++__Vi0) {
+        vlSelf->__Vm_traceActivity[__Vi0] = 0;
+    }
 }

@@ -1,6 +1,6 @@
-#include "verilated.h"
+#include <verilated.h>
 #include "VExponential.h"
-#include "verilated_vcd_c.h"
+#include <verilated_vcd_c.h>
 #include "stdio.h"
 #include "random"
 #include "ctime"

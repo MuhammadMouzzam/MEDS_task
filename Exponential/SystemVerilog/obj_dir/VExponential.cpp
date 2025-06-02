@@ -12,6 +12,7 @@ VExponential::VExponential(VerilatedContext* _vcontextp__, const char* _vcname__
     , vlSymsp{new VExponential__Syms(contextp(), _vcname__, this)}
     , x{vlSymsp->TOP.x}
     , y{vlSymsp->TOP.y}
+    , __PVT____024unit{vlSymsp->TOP.__PVT____024unit}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

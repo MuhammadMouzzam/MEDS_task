@@ -1,17 +1,3 @@
-run_cpp_impl : build
-	./SquareRoot
-
-build : SquareRoot.o
-	gcc $^ -o SquareRoot
-
-%.o : %.c
-	gcc -c $^
-
-.PHONY: clean
-
-clean : 
-	rm -rf *.o
-
 scale = 1ns/10ps
 
 run_sv_impl : VSquareRoot

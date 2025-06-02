@@ -29,6 +29,7 @@ class alignas(VL_CACHE_LINE_BYTES)VExponential__Syms final : public VerilatedSym
 
     // MODULE INSTANCE STATE
     VExponential___024root         TOP;
+    VExponential___024unit         TOP____024unit;
 
     // CONSTRUCTORS
     VExponential__Syms(VerilatedContext* contextp, const char* namep, VExponential* modelp);

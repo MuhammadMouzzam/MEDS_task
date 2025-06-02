@@ -13,6 +13,13 @@ class VExponential__Syms;
 class alignas(VL_CACHE_LINE_BYTES) VExponential___024unit final : public VerilatedModule {
   public:
 
+    // DESIGN SPECIFIC STATE
+    IData/*31:0*/ factorial__Vstatic__i;
+    IData/*31:0*/ power__Vstatic__i;
+    double factorial__Vstatic__fact;
+    double exp__Vstatic__result;
+    double power__Vstatic__result;
+
     // INTERNAL VARIABLES
     VExponential__Syms* const vlSymsp;
 

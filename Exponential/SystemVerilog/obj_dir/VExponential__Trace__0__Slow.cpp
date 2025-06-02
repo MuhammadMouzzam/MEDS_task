@@ -4,6 +4,8 @@
 #include "VExponential__Syms.h"
 
 
+VL_ATTR_COLD void VExponential___024root__trace_init_sub__TOP____024unit__0(VExponential___024root* vlSelf, VerilatedVcd* tracep);
+
 VL_ATTR_COLD void VExponential___024root__trace_init_sub__TOP__0(VExponential___024root* vlSelf, VerilatedVcd* tracep) {
     if (false && vlSelf) {}  // Prevent unused
     VExponential__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
@@ -11,12 +13,30 @@ VL_ATTR_COLD void VExponential___024root__trace_init_sub__TOP__0(VExponential___
     // Init
     const int c = vlSymsp->__Vm_baseCode;
     // Body
-    tracep->declDouble(c+1,0,"x",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
-    tracep->declDouble(c+3,0,"y",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
-    tracep->pushPrefix("Exponential", VerilatedTracePrefixType::SCOPE_MODULE);
-    tracep->declDouble(c+1,0,"x",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
-    tracep->declDouble(c+3,0,"y",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->pushPrefix("$unit", VerilatedTracePrefixType::SCOPE_MODULE);
+    VExponential___024root__trace_init_sub__TOP____024unit__0(vlSelf, tracep);
     tracep->popPrefix();
+    tracep->declDouble(c+9,0,"x",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->declDouble(c+11,0,"y",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->pushPrefix("Exponential", VerilatedTracePrefixType::SCOPE_MODULE);
+    tracep->declDouble(c+9,0,"x",-1, VerilatedTraceSigDirection::INPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->declDouble(c+11,0,"y",-1, VerilatedTraceSigDirection::OUTPUT, VerilatedTraceSigKind::WIRE, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->popPrefix();
+}
+
+VL_ATTR_COLD void VExponential___024root__trace_init_sub__TOP____024unit__0(VExponential___024root* vlSelf, VerilatedVcd* tracep) {
+    if (false && vlSelf) {}  // Prevent unused
+    VExponential__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VExponential___024root__trace_init_sub__TOP____024unit__0\n"); );
+    // Init
+    const int c = vlSymsp->__Vm_baseCode;
+    // Body
+    tracep->declDouble(c+1,0,"factorial__Vstatic__fact",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->declBus(c+3,0,"factorial__Vstatic__i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INT, false,-1, 31,0);
+    tracep->declBus(c+13,0,"exp__Vstatic__i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INT, false,-1, 31,0);
+    tracep->declDouble(c+4,0,"exp__Vstatic__result",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::DOUBLE, false,-1);
+    tracep->declBus(c+6,0,"power__Vstatic__i",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::INT, false,-1, 31,0);
+    tracep->declDouble(c+7,0,"power__Vstatic__result",-1, VerilatedTraceSigDirection::NONE, VerilatedTraceSigKind::VAR, VerilatedTraceSigType::DOUBLE, false,-1);
 }
 
 VL_ATTR_COLD void VExponential___024root__trace_init_top(VExponential___024root* vlSelf, VerilatedVcd* tracep) {
@@ -43,11 +63,25 @@ VL_ATTR_COLD void VExponential___024root__trace_register(VExponential___024root*
     tracep->addCleanupCb(&VExponential___024root__trace_cleanup, vlSelf);
 }
 
+VL_ATTR_COLD void VExponential___024root__trace_const_0_sub_0(VExponential___024root* vlSelf, VerilatedVcd::Buffer* bufp);
+
 VL_ATTR_COLD void VExponential___024root__trace_const_0(void* voidSelf, VerilatedVcd::Buffer* bufp) {
     VL_DEBUG_IF(VL_DBG_MSGF("+    VExponential___024root__trace_const_0\n"); );
     // Init
     VExponential___024root* const __restrict vlSelf VL_ATTR_UNUSED = static_cast<VExponential___024root*>(voidSelf);
     VExponential__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    // Body
+    VExponential___024root__trace_const_0_sub_0((&vlSymsp->TOP), bufp);
+}
+
+VL_ATTR_COLD void VExponential___024root__trace_const_0_sub_0(VExponential___024root* vlSelf, VerilatedVcd::Buffer* bufp) {
+    if (false && vlSelf) {}  // Prevent unused
+    VExponential__Syms* const __restrict vlSymsp VL_ATTR_UNUSED = vlSelf->vlSymsp;
+    VL_DEBUG_IF(VL_DBG_MSGF("+    VExponential___024root__trace_const_0_sub_0\n"); );
+    // Init
+    uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
+    // Body
+    bufp->fullIData(oldp+13,(0x15U),32);
 }
 
 VL_ATTR_COLD void VExponential___024root__trace_full_0_sub_0(VExponential___024root* vlSelf, VerilatedVcd::Buffer* bufp);
@@ -68,6 +102,11 @@ VL_ATTR_COLD void VExponential___024root__trace_full_0_sub_0(VExponential___024r
     // Init
     uint32_t* const oldp VL_ATTR_UNUSED = bufp->oldp(vlSymsp->__Vm_baseCode);
     // Body
-    bufp->fullDouble(oldp+1,(vlSelf->x));
-    bufp->fullDouble(oldp+3,(vlSelf->y));
+    bufp->fullDouble(oldp+1,(vlSymsp->TOP____024unit.factorial__Vstatic__fact));
+    bufp->fullIData(oldp+3,(vlSymsp->TOP____024unit.factorial__Vstatic__i),32);
+    bufp->fullDouble(oldp+4,(vlSymsp->TOP____024unit.exp__Vstatic__result));
+    bufp->fullIData(oldp+6,(vlSymsp->TOP____024unit.power__Vstatic__i),32);
+    bufp->fullDouble(oldp+7,(vlSymsp->TOP____024unit.power__Vstatic__result));
+    bufp->fullDouble(oldp+9,(vlSelf->x));
+    bufp->fullDouble(oldp+11,(vlSelf->y));
 }
