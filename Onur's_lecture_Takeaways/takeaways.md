@@ -6,16 +6,13 @@
 
 
 # *Lecture 1: Introduction*
----
 ## **1. Overview**
----
 - **Working of Modern computers (From Ground Up):** How they are actually implemented on hardware (Logic gates → Transistors → MicroProcessors)
 - **Goals** 
     - Understand the Basics.
     - Learn how to optimize a system.
 
 ## **2. Computer Architecture Basics**
----
 <p align='center'>
     <image width=350 height=300 src='transformation_hie.png'>
     <p align='center'><i>Transformation Hierarchy</i></p>
@@ -29,14 +26,14 @@
    - To achieve efficiency, robustness and performance, *co-design across the hierarchy* (design each part according to the to each of the other parts, taking the synthesizability and implementation under consideration).
 
 ## **3. Additional Content**
----
+
 - **Heterogeneity:** A combination of different Computational Units/Processors to get optimal performance.
 - **System Flexibity:**
     - Flexible/General Purpose Systems: Good at General Purpose use, but are less efficient.
     - Inflexible/Special Purpose System: Designed for only specific tasks and give high performance.
   
 ## **4. Transistors as Building Blocks**
----
+
 - **MOS Transistors:** Acts as Switches. In NMOS, a high voltage at gate means the switch is closed and vice versa, in PMOS, a high voltage at gates means the circuit is open.
 - **CMOS Technology:** Uses combination of NMOS and PMOS to implement different gates like NOT, AND etc
 <p  align='center'>
@@ -48,7 +45,7 @@ NOT and NAND are the simplest gates we can design from CMOS and we mostly combin
 For represetation, instead of using actual transistor equivalent diagrams for a gate, we'll use abstracted models/symbols (AND symbol, OR symbol etc.) to represent gates.
 
 ## **5. Different Logic Gates**
----
+
 - **NOT:** Inverts the input.
 - **NAND:** Outputs 0 when all inputs are 1.
 - **AND:** Is implemented using NAND + NOT.
@@ -59,16 +56,16 @@ For represetation, instead of using actual transistor equivalent diagrams for a 
 The network can either be in parallel or in series depending upon the need.
 
 # *Lecture 2: Combinational logic*
----
+
 ## **1. Overview**
----
+
 - Combinational Logic
 - Boolean Algebra
 - Representation, Manipulation and Minimization of circuits using boolean algebra
 - Basic combinational logic blocks
 
 ## **2. Boolean Algebra**
----
+
 
 - **Axioms:**
     - Closure Law
@@ -89,7 +86,7 @@ The network can either be in parallel or in series depending upon the need.
     - **Reason for Simplification:** To reduce cost, latency and area.
   
 ## **3. Basic Combinational Logic Blocks**
----
+
 ### **Decoders**
 - Decodes different input patterns to more number of bits.
 - Decodes `N` inputs to `2^N` Inputs i.e. one-hot/one-cold decoding.
@@ -119,7 +116,7 @@ The network can either be in parallel or in series depending upon the need.
 - **Example:** 4 input PLA can implement any 4 input combinational Logic function.
 
 # ***Lecture 3: Sequential Logic***
----
+
 ## **1. Overview**
 - **More Combinational Blocks:**
   - Comparator
@@ -149,7 +146,7 @@ The network can either be in parallel or in series depending upon the need.
 </p>
 
 ## **2. Sequential Logic**
----
+
 ### **Storage Elements**
 - **Cross-Coupled Gates**
   - The output has two stable and 1 metastable states
@@ -187,7 +184,7 @@ The network can either be in parallel or in series depending upon the need.
   - **Asynchronous:** Independent of the clock, faster and more efficient but are prone to race conditions
 
 ## **3. Memory Design**
----
+
 ### **Memory Registers**
 - An N bit register is formed using N D-flipflops in parallel
 - Enable for all these flipflops are connected
@@ -198,7 +195,7 @@ The network can either be in parallel or in series depending upon the need.
 - **Reading:** Mux with address as selector is required to read the data.
 
 ## **4. Finite State Machines (FSMs)**
----
+
 - Has finite states, as the name suggests
 - Dependent on the previous states
 - **Components:**
@@ -211,16 +208,16 @@ The network can either be in parallel or in series depending upon the need.
 
 
 # ***Lecture 4: Sequential Circuits(Continued)***
----
+
 ## **1. D-FlipFlops vs D-Latches**
----
+
 |Feature      |D Flip-Flop    |D Latch         |
 |-------------|---------------|----------------|
 |Trigger      |Edge Triggered |Level Triggered |
 |Usage in FSMs|      Yes      |     No         |
 
 ## **2. FSM Design**
----
+
 - **State Transition Graph**
   - Circles Represent States
   - Arcs represent state transitions and the number on the arc represent the input that caused that state transition
@@ -237,7 +234,7 @@ The network can either be in parallel or in series depending upon the need.
   - **Output Encoding:** Outputs are directly accessible from the states. Better for Moore only. Minimizes output logic
 
 ## **3. Mealy vs Moore FSM**
----
+
 |Features|Mealy FSM|Moore FSM|
 |--------|---------|---------|
 |Next State logic|Depends on Input and current state| Also depends on Input and current state|
@@ -245,15 +242,15 @@ The network can either be in parallel or in series depending upon the need.
 Timing|Output can change when input or current state changes|output changes only at clock edges(change of current state)|
 |Number of states|Typically has Lesser states|Has Moore states|
 ## **4. FPGA Design Flow**
----
+
 <p  align='center'>
       <image height=350 width=430 src='FPGA.png'>
   </p>
 
 # ***Lecture 5:Hardware Descriptive Languages(HDLs) and Testbenches***
----
+
 ## **1. Overview**
----
+
 ### **Core Concepts**
 - **Purpose:** We use special types of languages to describe hardwares. Such languages are called Hardware Descriptive languages - HDLs
 - **Languages Used:**
@@ -262,7 +259,7 @@ Timing|Output can change when input or current state changes|output changes only
   - VHDL
 
 ## **2. Verilog Fundamentals**
----
+
 ### **Module Writing**
 A Module must contains the following components:
 - `module` keyword used to define the module
@@ -309,7 +306,7 @@ module module_name(
 ```
 
 ## **3. Modeling Techniques**
----
+
 ### **Structural Model**
 - Includes Gate level Description of the circuit
 - Lesser Abstraction
@@ -337,7 +334,7 @@ always @(*) begin
 end
 ```
 ## **4. Sequential Logic Implementation**
----
+
 ### **always Block**
 - `always @ (sensitivity list)`
 - This Block always executes whenever the condition in the sensitivity list is fulfilled
@@ -375,7 +372,7 @@ endmodule
   - Evaluation of right hand side occurs when assignment appears but the actual assignment occurs always at the end of the block
 
 ## **5. FSM Implementation**
----
+
 An FSM implementation must have 2 atleast 2 always blocks
 - 1 for State Register
 - 1 for Next State and Output Logic
