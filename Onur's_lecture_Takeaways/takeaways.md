@@ -1,6 +1,6 @@
 <p align='center'>
     <image width=300 height=300 src='Meds.png'>
-    <h1 align='center' style='italic'><i>Key Takeaways: Digital Desgin and Computer Architecture (from Onur's Lectures)</i>
+    <h1 align='center' style='italic'><i>Key Takeaways: Digital Design and Computer Architecture (from Onur's Lectures)</i>
 </p>
 
 
@@ -211,13 +211,16 @@ The network can either be in parallel or in series depending upon the need.
 
 
 # ***Lecture 4: Sequential Circuits(Continued)***
-## **D-FlipFlops vs D-Latches**
+---
+## **1. D-FlipFlops vs D-Latches**
+---
 |Feature      |D Flip-Flop    |D Latch         |
 |-------------|---------------|----------------|
 |Trigger      |Edge Triggered |Level Triggered |
 |Usage in FSMs|      Yes      |     No         |
 
-## **FSM Design**
+## **2. FSM Design**
+---
 - **State Transition Graph**
   - Circles Represent States
   - Arcs represent state transitions and the number on the arc represent the input that caused that state transition
@@ -232,19 +235,283 @@ The network can either be in parallel or in series depending upon the need.
   - **One Hot Encoding:** N states are  represented by N bits. For each state, only one unique bit is 1 and the rest a 0. Maximizes numbers of flip flops but logic is easier
     - **Example:** `001, 010, 100`
   - **Output Encoding:** Outputs are directly accessible from the states. Better for Moore only. Minimizes output logic
-  
+
+## **3. Mealy vs Moore FSM**
+---
 |Features|Mealy FSM|Moore FSM|
 |--------|---------|---------|
 |Next State logic|Depends on Input and current state| Also depends on Input and current state|
 |Output|Depends on Input and current state|Depends only on Current state|
 Timing|Output can change when input or current state changes|output changes only at clock edges(change of current state)|
 |Number of states|Typically has Lesser states|Has Moore states|
-## **FPGA Design Flow**
+## **4. FPGA Design Flow**
+---
 <p  align='center'>
       <image height=350 width=430 src='FPGA.png'>
   </p>
 
-# ***Lecture 5:***
+# ***Lecture 5:Hardware Descriptive Languages(HDLs) and Testbenches***
+---
+## **1. Overview**
+---
+### **Core Concepts**
+- **Purpose:** We use special types of languages to describe hardwares. Such languages are called Hardware Descriptive languages - HDLs
+- **Languages Used:**
+  - Verilog (main focus of this course)
+  - System Verilog
+  - VHDL
 
+## **2. Verilog Fundamentals**
+---
+### **Module Writing**
+A Module must contains the following components:
+- `module` keyword used to define the module
+- Module Name
+- Inputs - along with datatype and `input` keyword
+- Outputs - along with datatype and `output` keyword
+- `endmodule ` keyword at the end of module
+```
+module Example(
+  input  wire a, b,    // Single-bit inputs
+  input  wire [3:0] c, // 4-bit bus
+  output reg  y        // Register output
+);
+  // Implementation of the Module
+endmodule
+```
 
+### **Fundamental Data types**
+- `wire`: Used for Combinational assignments. Value in computed continuously
+- `reg`: Used for procedural assignments. Computes value only when inputs change and holds the value until the next input change. Similar to a register but not a register.
+- `logic`: Can be wire and reg depending on the usage.
 
+### **Number Representations**
+<p align='center'><b><i>N'TXX...X</i></b></p>
+  
+- N - Number of bits
+- T - Type of the number (hexa, binary etc.)
+- X's - Actual Number
+
+### **Parameters**
+Act as Constant, once defined, their values can be changed
+- **Global Parameters:** Defined outside of any Module. Are accessible in all the modules
+```
+parameter AN = 2'b00;
+// Modules
+```
+- **Module Parameters:** Defined inside a module. Accessible only in that module.
+```
+module module_name(
+    #(parameter AN = 2'b00)
+    input a, b,
+    output y
+)
+```
+
+## **3. Modeling Techniques**
+---
+### **Structural Model**
+- Includes Gate level Description of the circuit
+- Lesser Abstraction
+```
+and g1(y, a, b) //Gate Instance
+or g2(y, a, b) //Gate Instance
+not g3(y, a) //Gate Instance
+
+submodule submodule_name(.Y(y), .A(a), .B(b)) //Module Instance
+```
+
+### **Behavioural Model**
+- More Abstraction
+- We use Equations instead of gate instances
+```
+//Continuous Assignment
+assign out = (a & b) | (c ^ d); //Equation
+// Procedural block
+always @(*) begin
+  case (sel)
+    2'b00: out = a;
+    2'b01: out = b;
+    default: out = 4'b0;
+  endcase
+end
+```
+## **4. Sequential Logic Implementation**
+---
+### **always Block**
+- `always @ (sensitivity list)`
+- This Block always executes whenever the condition in the sensitivity list is fulfilled
+- Conditions in Sensitivity block can be
+  - `posedge`/`negedge` - edge triggered
+  - `always @ (enable)` - level triggered
+  - `always @ (*)` - executes at any signal change used inside it
+- Signals in `always` block must always be of type `reg`
+
+### **D FlipFlop Implementation**
+```
+module flop(
+    input logic d, clk, rst,
+    output logic q
+)
+
+always @ (posedge clk)
+    if (rst)
+        q <= 0;
+    else
+        q <= d;
+endmodule
+```
+
+### **Assignments**
+- **Blocking Assignments:**
+  - ` = `
+  - Executes in Sequence
+  - May result in race conditions in Sequential logic
+  - Are executed in series, next assignment will not occur until previous assignment is complete
+- **Non-Blocking Assignments:**
+  - ` <= `
+  - Executes in parallel
+  - Doesn't result in race conditions
+  - Evaluation of right hand side occurs when assignment appears but the actual assignment occurs always at the end of the block
+
+## **5. FSM Implementation**
+---
+An FSM implementation must have 2 atleast 2 always blocks
+- 1 for State Register
+- 1 for Next State and Output Logic
+
+**Example:** Moore Machine Template
+```
+parameter [1:0] IDLE = 2'b00,
+                RUN  = 2'b01,
+                DONE = 2'b10;
+
+reg [1:0] state, next_state;
+// State register
+always @(posedge clk or posedge reset) begin
+  if (reset) state <= IDLE;
+  else state <= next_state;
+end
+// Next-state logic
+always @(*) begin
+  case (state)
+    IDLE: next_state = start ? RUN : IDLE;
+    RUN:  next_state = (count == MAX) ? DONE : RUN;
+    DONE: next_state = IDLE;
+  endcase
+end
+// Output logic
+assign ready = (state == IDLE);
+```
+### **Design Guidelines**
+1. **Hierarchy:**
+    - Break into functional block - submodules
+    - Verify submodules independently
+1. **Style:**
+    - Consistent naming (module_verb_noun)
+    - One always block per state machine
+    - No two assignments to the same signal in two different always blocks
+2. **Synthesis:**
+    - Avoid latches (ensure all cases covered) or use `default` case
+    - Register all outputs for timing stability
+
+# ***Lecture 6: Timing Specifications***
+- **Sources of Delays:** Parasitic Capacitance and Resistances of the transistors, wire delays and Aging.
+- Change in Temperature and supply voltage can change the delays.
+- Different inputs result in different delays.
+## **1. Combinational Circuit Timing**
+- **Types of Delays:**
+  - **Contamination Delay `t_cd`:** Minimum time the output takes to start changing after the input is changed.
+  - **Propagation Delay `t_pd`:** Maximum time the output takes to settle down after the input is changed.
+- **Longest-Shortest Path:**
+  - **Longest Path:** Always calculated using the propagation delay of the path the most gates indicating the most time consumed to get the output.
+  - **Shortest Path:** Always calculated using the contamination of the path with the least number of gates indicating the minimum time consumed to get a reaction in the circuit after input is changed.
+- **Glitches:**
+  - **Definition:** Unintended and unwanted outputs when certain input transitions happen.
+  - **Cause:** Paths with different delays to compute the output.
+  - **Example:**<p  align='center'><image height=300 width=350 src='glitch.png'></p>
+  - Glitches can be ignored if we only care about long term steady state outputs (which is the case most of the time).
+
+## **2. Sequential Circuit Timing**
+- **Flip-Flop Timing Constraints**
+  - **Setup/hold Time:**
+    - **Setup Time `t_setup`:** A certain amount of time for which the input must not chane before the clock edge.
+    - **Hold Time `t_hold`:** A certain amount of time for which the input must not change after the clock edge.
+    - **Aperature time `t_a`:** `t_setup + t_hold`
+  - **Clock-to-Q Delays:**
+    - **Contamination Delay `t_ccq`:** Earliest time after the clock edge which output of flip-flop (Q) takes to start changing
+    - **Propagation Delay `t_pcq`:** Latest time after the clock edge which output of flip-flop (Q) takes to stablize to a new value.
+  - **Clock Skew:**
+    - Difference in time of clocks reaching to different parts/flipflops in the circuit.
+    - **Worst Cases:**
+      - If clock arrives at latter FlipFlops first, the increase effective `t_setup` time - `t_setup,effective = t_setup + t_skew`.
+        - `Tc > t_pcq + t_pd + t_setup + t_skew`
+      - If clock arrives at the previous FlipFlops first, the increases effective `t_hold` time - `t_hold,effective = t_hold + t_skew`.
+        - `t_hold < t_cd + t_ccq`
+    - **Fix:** Use Clock Mesh Sythesis techniques (e.g. H-Tree Networks).
+  - **Timing Constraints:**
+    - Time Period of the clock - Tc : `Tc > t_pcq + t_pd + t_setup`
+  - `t_hold < t_cd + t_ccq`
+## **3. Timing Violations and Fixes**
+- **Setup Time Violation:**
+  - **Cause:** Combinational Logic between flipflips is too slow - Output isn't ready before setup time.
+  - **Fix:** Increase Clock frequency, add buffers in the combinational Logic in shortest path to increase `t_cd`
+- **Hold Time Violations:**
+  - **Cause:** Combinational Logic between flipflops is too fast - Output is ready before hold time.
+  - **Fix:** Add buffers to delay signals (no effect on t_setup).
+
+## **4. Verification**
+### **Functional Verification**
+- **TestBenches:**
+
+|TestBench|Input/Output Generation|Checking|
+|---------|-----------------------|--------|
+|**Simple**|<div align='center'>Manual|<div align='center'>Manual|
+|**Self-Checking**|<div align='center'>Manual|<div align='center'>Automatic|
+|**Automatic**|<div align='center'>Automatic|<div align='center'>Automatic|
+
+<div align='center'>
+  <image  height=150 width=380 src='tb.png'>
+</div>
+
+### **Basic TestBench Structure**
+```
+module testbench;
+  // 1. Declare test signals
+  reg clk, rst;
+  wire [7:0] result;
+  
+  // 2. Instantiate DUT
+  DesignUnderTest dut(.clk(clk), .reset(rst), .out(result));
+  
+  // 3. Clock generation
+  always #5 clk = ~clk;
+  
+  // 4. Test sequence
+  initial begin
+    clk = 0; rst = 1;
+    #20 rst = 0;
+    #100 $finish;
+  end
+endmodule
+```
+
+## **Timing Verifications**
+- **High level Verification:** Can model time using `#x` e.g. `#10`
+- **Static Timing Analysis (STA):** Tools report critical paths and violations
+- **Post-Synthesis:** Gate-level simulations with real timing data from cell libraries.
+
+## **Good Design Principles**
+- **Critical Path Design:** Minimize the maximum logic delays to increase performance i.e. maximize clock frequency.
+- **Balanced Design:** Balance Maximum logic delay all around the circuit to avoid unintended problems.
+- **Bread-and-Butter Design:** Optimize the design to handle common case but make sure it doesn't fail rare cases either
+- The longest path delay determines the operating clock frequency of the circuit.
+
+# ***References***
+
+- [Lecture 1](https://www.youtube.com/watch?v=ubhxKNlOlRg&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=1)
+- [Lecture 2](https://www.youtube.com/watch?v=U-4jmbm8inw&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=2)
+- [Lecture 3](https://www.youtube.com/watch?v=smHJ1W7S-2Q&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=3)
+- [Lecture 4](https://www.youtube.com/watch?v=KcP1ky8_U7w&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=6)
+- [Lecture 5](https://www.youtube.com/watch?v=3Sqt0GIFPbc&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=7)
+- [Lecture 6](https://www.youtube.com/watch?v=DBsDuQwpPsI&list=PL5Q2soXY2Zi9Eo29LMgKVcaydS7V1zZW3&index=8)
